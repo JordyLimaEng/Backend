@@ -3,6 +3,7 @@ package com.jordy.backend.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jordy.backend.domain.enums.ClientType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class Client implements Serializable {
 
@@ -27,7 +29,7 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "PHONE")
     private Set<String> phone = new HashSet<>();
 

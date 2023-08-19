@@ -1,11 +1,16 @@
 package com.jordy.backend;
 
+import com.jordy.backend.domain.Order;
+import com.jordy.backend.domain.OrderItem;
+import com.jordy.backend.domain.Product;
 import com.jordy.backend.repositories.*;
 import com.jordy.backend.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
@@ -34,6 +39,9 @@ public class BackendApplication implements CommandLineRunner {
 
 	@Autowired
 	PaymentRepository paymentRepository;
+
+	@Autowired
+	OrderItemRepository orderItemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
@@ -107,8 +115,26 @@ public class BackendApplication implements CommandLineRunner {
 
 		orderRepository.saveAllAndFlush(Arrays.asList(o1,o2));
 		paymentRepository.saveAllAndFlush(Arrays.asList(payment1,payment2));
-		 */
 
+		Order o1 = orderRepository.findById(1).get();
+		Order o2 = orderRepository.findById(2).get();
 
+		Product p1 = productRepository.findById(4).get();
+		Product p2 = productRepository.findById(5).get();
+		Product p3 = productRepository.findById(6).get();
+
+		OrderItem orderItem1 = new OrderItem(o1, p1, 0.00, 1, 2000.00);
+		OrderItem orderItem2 = new OrderItem(o1, p3, 0.00, 2, 80.00);
+		OrderItem orderItem3 = new OrderItem(o2, p2, 100.00, 1, 600.00);
+
+		o1.getItens().addAll(Arrays.asList(orderItem1,orderItem2));
+		o2.getItens().addAll(Arrays.asList(orderItem3));
+
+		p1.getItens().addAll(Arrays.asList(orderItem1));
+		p2.getItens().addAll(Arrays.asList(orderItem3));
+		p3.getItens().addAll(Arrays.asList(orderItem2));
+
+		orderItemRepository.saveAllAndFlush(Arrays.asList(orderItem1,orderItem2, orderItem3));
+		*/
 	}
 }

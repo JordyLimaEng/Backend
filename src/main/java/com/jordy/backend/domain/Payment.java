@@ -16,7 +16,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer status;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     @MapsId
     private Order order;

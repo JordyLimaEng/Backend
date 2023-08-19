@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Entity;
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 public class PaymentWithBankSlip extends Payment{

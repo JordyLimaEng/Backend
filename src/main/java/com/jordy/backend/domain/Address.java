@@ -2,10 +2,12 @@ package com.jordy.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
 public class Address implements Serializable {
