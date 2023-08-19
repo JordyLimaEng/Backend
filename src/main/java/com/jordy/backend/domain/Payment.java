@@ -1,5 +1,7 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jordy.backend.domain.enums.ClientType;
 import com.jordy.backend.domain.enums.StatusPayment;
 import lombok.Data;
@@ -16,6 +18,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer status;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     @MapsId
@@ -30,6 +33,7 @@ public abstract class Payment implements Serializable {
         this.status = status.getCod();
         this.order = order;
     }
+
 
     public StatusPayment getStatus() {
         return StatusPayment.toEnum(status);

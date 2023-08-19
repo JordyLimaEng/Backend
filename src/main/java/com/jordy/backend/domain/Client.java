@@ -1,5 +1,7 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jordy.backend.domain.enums.ClientType;
 import lombok.Data;
@@ -13,19 +15,20 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Data
 public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
     private String name;
     private String email;
     private String legalDocumentNumber;
     private Integer type;
 
-    @JsonManagedReference
+    
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
@@ -33,6 +36,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "PHONE")
     private Set<String> phone = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client", fetch=FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 

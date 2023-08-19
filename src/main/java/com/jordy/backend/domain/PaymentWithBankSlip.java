@@ -1,5 +1,6 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jordy.backend.domain.enums.StatusPayment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +13,10 @@ import java.util.Date;
 @Entity
 public class PaymentWithBankSlip extends Payment{
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date expirationDate;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date paymentDate;
 
     public PaymentWithBankSlip() {

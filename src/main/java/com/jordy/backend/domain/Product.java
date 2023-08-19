@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY, onlyExplicitlyIncluded = true)
 @Data
 @Entity
 @Table(name = "Product")
@@ -22,6 +22,7 @@ public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     private String name;
@@ -32,9 +33,10 @@ public class Product implements Serializable {
     @JoinTable(name = "Product_Category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @JsonBackReference
+    @JsonIgnore
     private List<Category> categories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product", fetch = FetchType.EAGER)
     private Set<OrderItem> itens = new HashSet<>();
 
@@ -46,6 +48,7 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public List<Order> getOrders(){
         List<Order> list = new ArrayList<>();
         for (OrderItem o : itens){

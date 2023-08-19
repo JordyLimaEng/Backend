@@ -1,6 +1,7 @@
 package com.jordy.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class State implements Serializable {
     private Integer id;
     private String name;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "state", fetch=FetchType.EAGER)
     private List<City> cities = new ArrayList<>();
 

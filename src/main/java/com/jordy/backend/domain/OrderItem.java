@@ -1,5 +1,6 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,11 +9,13 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Data
-@EqualsAndHashCode(callSuper = false, cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY)
+@EqualsAndHashCode(callSuper = false, cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY, onlyExplicitlyIncluded = true)
 @Entity
 public class OrderItem implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private OrderItemPK id = new OrderItemPK();
 
     private Double discount;
@@ -34,6 +37,7 @@ public class OrderItem implements Serializable {
         return id.getProduct();
     }
 
+    @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
     }
