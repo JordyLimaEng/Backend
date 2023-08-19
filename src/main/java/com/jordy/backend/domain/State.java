@@ -18,7 +18,7 @@ public class State implements Serializable {
     private String name;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "state")
+    @OneToMany(mappedBy = "state", fetch=FetchType.EAGER)
     private List<City> cities = new ArrayList<>();
 
     public State() {

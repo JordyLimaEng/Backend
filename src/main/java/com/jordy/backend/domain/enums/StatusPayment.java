@@ -3,30 +3,31 @@ package com.jordy.backend.domain.enums;
 import lombok.Getter;
 
 @Getter
-public enum ClientType {
+public enum StatusPayment {
 
-    INDIVIDUAL_PERSON(1, "Individual Person"),
-    JURIDICAL_PERSON(2, "Juridical Person");
+    PENDING(0, "Pending"),
+    PAID(1, "Paid"),
+    CANCELED(2, "Canceled");
 
     private final int cod;
     private final String description;
 
-    ClientType(int cod, String description) {
+    StatusPayment(int cod, String description) {
         this.cod = cod;
         this.description = description;
     }
 
-    public static ClientType toEnum(Integer cod){
+    public static StatusPayment toEnum(Integer cod){
         if(cod == null){
             return null;
         }
 
-        for(ClientType c : ClientType.values()){
+        for(StatusPayment c : StatusPayment.values()){
             if(cod.equals(c.getCod())){
                 return c;
             }
         }
 
-        throw new IllegalArgumentException("Invalid code: " + cod);
+        throw new IllegalArgumentException("Invalid statusPayment: " + cod);
     }
 }

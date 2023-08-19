@@ -1,17 +1,11 @@
 package com.jordy.backend;
 
-import com.jordy.backend.domain.Address;
-import com.jordy.backend.domain.City;
-import com.jordy.backend.domain.Client;
-import com.jordy.backend.domain.State;
-import com.jordy.backend.domain.enums.ClientType;
 import com.jordy.backend.repositories.*;
+import com.jordy.backend.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
@@ -31,6 +25,15 @@ public class BackendApplication implements CommandLineRunner {
 
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	private ClientService clientService;
+
+	@Autowired
+	OrderRepository orderRepository;
+
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
@@ -84,7 +87,28 @@ public class BackendApplication implements CommandLineRunner {
 
 		clientRepository.saveAndFlush(cli1);
 		addressRepository.saveAllAndFlush(Arrays.asList(adr1, adr2));
+
+		Client cli1 = clientService.findOne(1);
+		Address adr1 = addressRepository.findById(1).get();
+		Address adr2 = addressRepository.findById(2).get();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+		Order o1 = new Order(null, sdf.parse("2017/09/30 10:32"), cli1, adr1);
+		Order o2 = new Order(null, sdf.parse("2017/10/10 19:35"), cli1, adr2);
+
+		Payment payment1 = new PaymentWithCreditCard(null, StatusPayment.PAID, o1, 6);
+		o1.setPayment(payment1);
+
+		Payment payment2 = new PaymentWithBankSlip(null, StatusPayment.PENDING, o2, sdf.parse("2017/10/20 00:00"), null);
+		o2.setPayment(payment2);
+
+		cli1.getOrders().addAll(Arrays.asList(o1,o2));
+
+		orderRepository.saveAllAndFlush(Arrays.asList(o1,o2));
+		paymentRepository.saveAllAndFlush(Arrays.asList(payment1,payment2));
 		 */
+
 
 	}
 }

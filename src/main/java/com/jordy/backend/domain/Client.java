@@ -31,6 +31,9 @@ public class Client implements Serializable {
     @CollectionTable(name = "PHONE")
     private Set<String> phone = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", fetch=FetchType.EAGER)
+    private List<Order> orders = new ArrayList<>();
+
     public Client() {}
 
     public Client(Integer id, String name, String email, String legalDocumentNumber, ClientType type) {
