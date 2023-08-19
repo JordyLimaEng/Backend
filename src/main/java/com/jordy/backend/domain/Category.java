@@ -1,10 +1,13 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +19,10 @@ public class Category implements Serializable {
     private Integer id;
 
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    @JsonManagedReference
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }
