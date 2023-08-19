@@ -19,6 +19,9 @@ public class City implements Serializable {
     @JoinColumn(name = "state_id")
     private State state;
 
+    public City() {
+    }
+
     public City(Integer id, String name, State state) {
         this.id = id;
         this.name = name;
