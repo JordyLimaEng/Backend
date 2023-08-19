@@ -1,5 +1,6 @@
 package com.jordy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jordy.backend.domain.enums.ClientType;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Client implements Serializable {
     private String legalDocumentNumber;
     private Integer type;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
